@@ -71,3 +71,4 @@ Route::post('/follow','FollowsController@follow')->name('follows,follow');
 Route::post('/unfollow','FollowsController@unfollow')->name('follows,unfollow');
 
 
+
