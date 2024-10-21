@@ -37,7 +37,7 @@ Route::get('/top','PostsController@index');
 Route::get('/profile','UsersController@profile');
 
 // プロフィールを更新させる
-Route::post('/profile','UsersController@profiledit')->name('profile.updated');
+Route::post('/profile','UsersController@profiledit');
 
 
 Route::get('/search','UsersController@search');

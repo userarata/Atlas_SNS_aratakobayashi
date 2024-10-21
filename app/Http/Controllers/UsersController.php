@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 //use宣言・・・中で使うクラス（Auth）の宣言
 //このファイルではIlluminate\Support\Facadesフォルダの中にあるAithクラスを使用すると宣言
-//→宣言をしておけばこのファイル内においてAuthと書くだけでAuthクラスを呼びだせる
+//→宣言をしておけばこのファイル内においてAuthと書くだけでAuthクラス（ログインしているユーザーの情報）を呼びだせる
 use App\User;
 
 use Illuminate\Support\Facades\Validator;
@@ -70,77 +70,84 @@ public function test(Request $request){
 
 // 
 public function profiledit(Request $request){
-
+// dd($request);
     if($request->isMethod('post')){
-        $rulus =[
-            'username' => 'required|min:2|max12',
-            'mail' => 'required|email|min:5|max:40|unique:users',
-            'newpassword' => 'required|alpha_dash|min:8|max:20|confirmed|string',
-            'newpassword_confirmation' => 'required|alpha_dash|min:8|max:20|string',
-            'bio' => 'max:150',
-            'iconimage' => 'image|alpha_dash|mimes:jpg,png,bmp,gif,svg',
-        ];
+         $rules =[
+             'username' => 'required|min:2|max12',
+             'mail' => 'required|email|min:5|max:40|unique:users',
+             'password' => 'required|alpha_dash|min:8|max:20|confirmed|string',
+             'password_confirmation' => 'required|alpha_dash|min:8|max:20|string',
+             'bio' => 'max:150',
+             'images' => 'image|alpha_dash|mimes:jpg,png,bmp,gif,svg',
+         ];
+         //required・・・フィールドデータがNULLや空であってはならない
+         //unique・・・フィールドデータがデータベーステーブル内で重複してはいけない
 
-        $message = [
-            'username.required' => 'ユーザー名を入力してください',
-            'username.min' => 'ユーザー名は2文字以上、12文字以下で入力してください',
-            'username.max' => 'ユーザー名は2文字以上、12文字以下で入力してください',
-            'mail.required' => 'メールアドレスを入力してください',
-            'mail.email' => '有効なEメールアドレスを入力してください',
-            'mail.min' => 'メールアドレスは5文字以上、40文字以下で入力してください',
-            'mail.max' => 'メールアドレスは5文字以上、40文字以下で入力してください',
-            'mail.unique:users' => 'このメールアドレスは既に失われています',
-            'newpassword' => 'パスワードを入力してください',
-            'newpassword.min' => 'パスワードは8文字以上、20文字以下で入力してください',
-            'newpassword.max' => 'パスワードは8文字以上、20文字以下で入力してください',
-            'newpassword.alpha_dash' => 'パスワードは英数字のみで入力してください',
-            'newpassword.confirmed' => '確認パスワードが一致しません',
-            'newpassword_confirmation.required' => '確認パスワードを入力してください',
-            'newpassword.alpha_num' => 'パスワードは半角英数字で入力してください',
-            'iconimage.image' => '指定されたファイルは画像ではありません',
-            'iconimage.alpha_dash' => 'ファイル名は英数字のみです',
-            'iconimage.mimes' => '指定されたファイルではありません',
-        ];
+         $message = [
+             'username.required' => 'ユーザー名を入力してください',
+             'username.min' => 'ユーザー名は2文字以上、12文字以下で入力してください',
+             'username.max' => 'ユーザー名は2文字以上、12文字以下で入力してください',
+             'mail.required' => 'メールアドレスを入力してください',
+             'mail.email' => '有効なEメールアドレスを入力してください',
+             'mail.min' => 'メールアドレスは5文字以上、40文字以下で入力してください',
+             'mail.max' => 'メールアドレスは5文字以上、40文字以下で入力してください',
+             'mail.unique:users' => 'このメールアドレスは既に失われています',
+             'password.required' => 'パスワードを入力してください',
+             'password.min' => 'パスワードは8文字以上、20文字以下で入力してください',
+             'password.max' => 'パスワードは8文字以上、20文字以下で入力してください',
+             'password.alpha_dash' => 'パスワードは英数字のみで入力してください',
+            //  'password confirm.required' => '確認パスワードが一致しません',
+             'password.confirmed' => '確認パスワードが一致しません',
+             'password.alpha_num' => 'パスワードは半角英数字で入力してください',
+             'iconimage.image' => '指定されたファイルは画像ではありません',
+             'iconimage.alpha_dash' => 'ファイル名は英数字のみです',
+             'iconimage.mimes' => '指定されたファイルではありません',
+         ];
 
-        $validator = validator::make($request->all(),$rulus, $message);
-
-        if($validator->fails()){
-            return redirect('/profile')
-            ->withErrors($validator)
-            ->withInput();
-        }
+         $validator = validator::make($request->all(),$rules, $message);
+ //バリデーションが失敗した場合のエラーの処理
+         if($validator->fails()){
+             return redirect('/profile')
+             ->withErrors($validator)
+             ->withInput();
+         }
 
         $user = Auth::user();//更新の処理。ログインユーザーの取得。
         $id = Auth::id();//ログインしているユーザーidの取得。
-        $validator -> validate();
+         $validator -> validate();
 
 
         //画像登録
-        $image = $request->file('iconimage')->getClientOriginalName();
-        if($image != null){
-            $image->store('public/images');
-            \DB::table('users')
-            ->where('id',$id)
-            ->update([
-                'images' => basename($image),
-            ]);
-        }
-        
-        $id = $request->input('id');
+        // $image = $request->file('iconimage')->getClientOriginalName();
+        // if($image != null){
+        //     $image->store('public/images');
+        //     \DB::table('users')
+        //     ->where('id',$id)
+        //     ->update([
+        //         'images' => basename($image),
+        //     ])
+        // }
+        // dd($request);
+        $id = Auth::id();
+        // dd($id);
         $username = $request->input('name');
         $mail = $request->input('mail');
         $password = $request->input('password');
         $bio = $request->input('bio'); 
-        $icon = $request->input('icon');
+        // $icon = $request->input('icon');
+        $filename = $request->images->getClientOriginalName();
+        $images = $request->images->storeAs('user-images',$filename,'public');
+        // dd($images);
                
-        User::where('id','$id')->update([[
-            'username' => 'join',
-            'mail' =>  'join@icloud',
-            'password' => 'bcrypt',
-            'bio' => 'Laravelの勉強をしています。',
-            'images' =>  'icon',
-        ]]);
-dd($update);
+        User::where('id',$id)->update([
+            'username' => $username,
+            'mail' =>  $mail,
+            'password' => bcrypt($password),
+            //ログイン時にパスワードは空欄にする
+            'bio' => $bio,
+            'images' =>  $images,
+        ]);
+// dd($update);
     
 return redirect('/top');
 }

@@ -1,12 +1,26 @@
 @extends('layouts.login')
 @section('content')
+
+<!-- バリデーションのエラーメッセージ -->
+@if($errors->any())
+ <div class="edit_error">
+  <ul>
+    @foreach($errors->all() as $error)
+    <li>{{$error}}</li>
+    @endforeach
+</ul>
+</div>
+@endif
+<!-- $errors->all()・・・全てのエラーを取得 -->
+<!-- $errors->first()・・・最初のエラーだけを取得 -->
+
 <p>プロフィール</p>
 
 
 <form class=""action="{{url('/profile')}}" method="POST" enctype="multipart/form-data">
   <?php $user = Auth::user(); ?>
   
-  <figure><img width="32" src="{{ asset('strage/' . $user->images ) }}"></figure>
+  <figure><img width="32" src="{{ asset('/strage/' . $user->images ) }}"></figure>
   <div class="form-group mb-3">
     user namespace
     <input type="text" value="{{ $user->username }}" class="input" name="name">
@@ -43,9 +57,8 @@
 </div>
 {{csrf_field()}}
 
+
 </form>
-
-
 
 
 @endsection
