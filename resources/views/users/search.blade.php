@@ -20,23 +20,23 @@
 <!--保存されてるリスト一覧の表示-->
 <div class="container-list">
 
-<table class="container-list">
-  <table class='table table-hover'>
+
     @foreach ($users as $user)
     <!--コントローラーから受け取った$users(左)を反復処理させる-->
     <!--自分以外を表示させる-->
-<tr>
-  <td><img src="{{ $user->images }}" alt="ユーザーアイコン"></td>
-  <td>{{ $user->username }}</td>
-</tr>
+  <p><img src="{{ $user->images }}" alt="ユーザーアイコン"></p>
+  <p>{{ $user->username }}</p>
+  <!-- $user->username・・・特定のユーザー名を指定しない記述 -->
 
 <!--フォローしているユーザーの場合-->
 
 
 <!-- フォローする/フォロー解除ボタン -->
 <!-- フォローする -->
-<form action="{{ route('follows,follow',['id' => $user->id]) }}" method="POST">
-  <input type="hidden" name="user_id" value="">
+<form action="{{ route('follows.follow',['id' => $user->id]) }}" method="POST">
+  <!-- $user->id・・・特定のidを指定しない記述 -->
+   @csrf
+<input type="hidden" name="user_id" value="">
   <button type="submit" class="btn btn-primary">
     フォローする
 </button>
@@ -52,7 +52,6 @@
 
 @endforeach
 
-</table>
 </div>
 
 @endsection

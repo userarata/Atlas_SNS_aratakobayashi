@@ -65,8 +65,9 @@ Route::post('update', 'PostsController@update');
 
 
 // フォローする
-Route::post('/user/{id}/follow', 'FollowsController@follow')->name('follows,follow');
+Route::post('/user/{id}/follow', 'FollowsController@follow')->name('follows.follow');
 // Route::post('/follow','FollowsController@follow')->name('follows,follow');
+//パラメーターの引き渡しエラー・・・「route 〇〇 指定」検索
 
 // フォロー解除
 Route::post('/user/{id}/unfollow', 'FollowsController@unfollow')->name('follows,unfollow');

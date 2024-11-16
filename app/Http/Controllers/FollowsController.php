@@ -8,6 +8,8 @@ use App\User;
 
 use App\FollowUser;
 
+use Auth;
+
 class FollowsController extends Controller
 
 
@@ -26,8 +28,8 @@ class FollowsController extends Controller
     //フォロー機能
     public function follow($id) {
         $follower = Auth::user();
-        dd($follower);
         $is_following = $follower->isfollowing($id);
+        dd($id);
         if($is_following){
             $follower->follow($id);
             return back();
@@ -35,12 +37,12 @@ class FollowsController extends Controller
     }
 
     //フォロー解除機能
-    public function unfollow(User $user) {
+    public function unfollow($id) {
         $follower = Auth::user();
-        $is_following = $follower->isfollowing($user->id);
+        $is_following = $follower->isfollowing($id);
 
         if($is_following){
-          $follower->unfollow($user->id);
+          $follower->unfollow($id);
           return back();
         }
     }
