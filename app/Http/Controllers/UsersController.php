@@ -73,35 +73,32 @@ public function profiledit(Request $request){
 // dd($request);
     if($request->isMethod('post')){
          $rules =[
-             'username' => 'required|min:2|max12',
+             'username' => 'required|min:2|max:12',
              'mail' => 'required|email|min:5|max:40|unique:users',
              'password' => 'required|alpha_dash|min:8|max:20|confirmed|string',
              'password_confirmation' => 'required|alpha_dash|min:8|max:20|string',
              'bio' => 'max:150',
-             'images' => 'image|alpha_dash|mimes:jpg,png,bmp,gif,svg',
+             'iconimage' => 'image|alpha_dash|mimes:jpg,png,bmp,gif,svg',
          ];
          //required・・・フィールドデータがNULLや空であってはならない
          //unique・・・フィールドデータがデータベーステーブル内で重複してはいけない
 
          $message = [
-             'username.required' => 'ユーザー名を入力してください',
-             'username.min' => 'ユーザー名は2文字以上、12文字以下で入力してください',
-             'username.max' => 'ユーザー名は2文字以上、12文字以下で入力してください',
-             'mail.required' => 'メールアドレスを入力してください',
-             'mail.email' => '有効なEメールアドレスを入力してください',
-             'mail.min' => 'メールアドレスは5文字以上、40文字以下で入力してください',
-             'mail.max' => 'メールアドレスは5文字以上、40文字以下で入力してください',
-             'mail.unique:users' => 'このメールアドレスは既に失われています',
-             'password.required' => 'パスワードを入力してください',
-             'password.min' => 'パスワードは8文字以上、20文字以下で入力してください',
-             'password.max' => 'パスワードは8文字以上、20文字以下で入力してください',
-             'password.alpha_dash' => 'パスワードは英数字のみで入力してください',
-            //  'password confirm.required' => '確認パスワードが一致しません',
-             'password.confirmed' => '確認パスワードが一致しません',
-             'password.alpha_num' => 'パスワードは半角英数字で入力してください',
-             'iconimage.image' => '指定されたファイルは画像ではありません',
-             'iconimage.alpha_dash' => 'ファイル名は英数字のみです',
-             'iconimage.mimes' => '指定されたファイルではありません',
+             'username.required' => 'ユーザー名を入力してください',//適用
+             'username.min' => 'ユーザー名は2文字以上、12文字以下で入力してください',//適用
+             'username.max' => 'ユーザー名は2文字以上、12文字以下で入力してください',//適用
+             'mail.required' => 'メールアドレスを入力してください',//適用
+             'mail.email' => '有効なEメールアドレスを入力してください',//適用
+             'mail.min' => 'メールアドレスは5文字以上、40文字以下で入力してください',//適用
+             'mail.max' => 'メールアドレスは5文字以上、40文字以下で入力してください',//適用
+             'mail.unique' => 'このメールアドレスは既に失われています',//適用
+             'password.required' => 'パスワードを入力してください',//適用
+             'password.min' => 'パスワードは8文字以上、20文字以下で入力してください',//適用
+             'password.max' => 'パスワードは8文字以上、20文字以下で入力してください',//適用
+             'password_confirmation.required' => '確認パスワードが一致しません',//適用
+             'iconimage.image' => '指定されたファイルは画像ではありません',//適用
+             'iconimage.alpha_dash' => 'ファイル名は英数字のみです',//適用
+             'iconimage.mimes' => '指定されたファイルではありません',//適用
          ];
 
          $validator = validator::make($request->all(),$rules, $message);
@@ -152,6 +149,29 @@ public function profiledit(Request $request){
 return redirect('/top');
 }
 
+//フォロー機能
+// public function follow(User $user)
+// {
+//   $user = Auth::user();  
+//   $follower = auth()->user();
+//   $is_following = $follower->isFollowing($user->id);
+//   if(!$is_following) {
+//   $follower->follow($user->id);
+//   return back();
+//   }
+// }
+
+//フォロー解除
+// public function unfollow(User $user)
+// {
+//   $user = Auth::user();
+//   $follower = auth()->user();
+//   $is_following = $follower->isFollowing($user->id);
+//   if($is_following) {
+//   $follower->unfollow($user->id);
+//   return back();
+//   }
+// }
 
 }
 }

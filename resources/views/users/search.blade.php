@@ -30,10 +30,12 @@
   <td>{{ $user->username }}</td>
 </tr>
 
+<!--フォローしているユーザーの場合-->
+
 
 <!-- フォローする/フォロー解除ボタン -->
 <!-- フォローする -->
-<form action="{{ route('follows,follow') }}" method="POST">
+<form action="{{ route('follows,follow',['id' => $user->id]) }}" method="POST">
   <input type="hidden" name="user_id" value="">
   <button type="submit" class="btn btn-primary">
     フォローする
@@ -41,7 +43,7 @@
 </form>
 
 <!-- フォロー解除 -->
-<form action="{{ route('follows,unfollow') }}"method="POST">
+<form action="{{ route('follows,unfollow',['id' => $user->id]) }}"method="POST">
   <input type="hidden" name="user_id" value="">
   <button type="submit" class="btn btn-primary">
     フォロー解除

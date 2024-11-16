@@ -65,10 +65,12 @@ Route::post('update', 'PostsController@update');
 
 
 // フォローする
-Route::post('/follow','FollowsController@follow')->name('follows,follow');
+Route::post('/user/{id}/follow', 'FollowsController@follow')->name('follows,follow');
+// Route::post('/follow','FollowsController@follow')->name('follows,follow');
 
 // フォロー解除
-Route::post('/unfollow','FollowsController@unfollow')->name('follows,unfollow');
+Route::post('/user/{id}/unfollow', 'FollowsController@unfollow')->name('follows,unfollow');
+// Route::post('/unfollow','FollowsController@unfollow')->name('follows,unfollow');
 
 
 

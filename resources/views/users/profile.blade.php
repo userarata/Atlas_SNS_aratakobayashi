@@ -22,12 +22,12 @@
   
   <figure><img width="32" src="{{ asset('/strage/' . $user->images ) }}"></figure>
   <div class="form-group mb-3">
-    user namespace
-    <input type="text" value="{{ $user->username }}" class="input" name="name">
+    username
+    <input type="text" value="{{ $user->username }}" class="input" name="username">
 </div><br>
 
 <div class="form-group mb-3">
-  mail adress
+  mail
   <input type="text" value="{{ $user->mail }}" class="input" name="mail">
 </div><br>
 
@@ -48,8 +48,8 @@
 </div><br>
 
 <div class="form-group mb-3">
-  icon image
-  <input type="file" name="images" class="custom-file-input" id="fileImage">
+  iconimage
+  <input type="file" name="iconimage" class="custom-file-input" id="fileImage">
 </div>
 
 <div class="btn-profileupdate">

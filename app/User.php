@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'mail', 'password', 'bio',
+        'username', 'mail', 'password', 'bio','following_user_id', 'followed_user_id'
     ];
 
     /**
@@ -29,6 +29,7 @@ class User extends Authenticatable
     ];
 
 
+
 // フォロー、フォロワー
 public function follow($user_id){
     return $this->follows()->attach($user_id);
@@ -38,7 +39,7 @@ public function unfollow($user_id){
     return $this->follows()->detack($user_id);
 }
 
-public function isFollowing($user_id){
+public function isfollowing($user_id){
     return (bool) $this->follows()->where('followed_id',$user_id)->exists();
 }
 
@@ -47,13 +48,21 @@ public function isFollowed($user_id){
 }
 
 // フォローボタン設置、解除
-public function follows(){
-    return $this->belongsToMany('App\User', 'follows', 'following_id', 'followed_id');
-}
+public function follows()
+    {
+        return $this->belongsToMany('App\User', 'follow_users', 'followed_user_id', 'following_user_id');
+    }
+// public function follows(){
+//     return $this->belongsToMany('App\User', 'follows', 'following_id', 'followed_id');
+// }
 
-public function follower(){
-    return $this->belongsToMany('App\User', 'follows', 'followed_id', 'following_id');
-}
+public function follower()
+    {
+        return $this->belongsToMany('App\User', 'follow_users', 'following_user_id', 'followed_user_id');
+    }
+// public function follower(){
+//     return $this->belongsToMany('App\User', 'follows', 'followed_id', 'following_id');
+// }
 
 }
 

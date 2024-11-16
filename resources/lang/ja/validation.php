@@ -147,6 +147,7 @@ return [
     */
     'attributes' => [
 //  日本語変換
+    'username' => 'ユーザー名',
     'mail' => 'メール',
     'password' => 'パスワード',
     'password_confirmation' => '確認パスワード',
